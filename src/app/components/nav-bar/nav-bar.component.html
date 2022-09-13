@@ -1,5 +1,35 @@
-<button (click)="clicked()">
-    nav button
-</button>
-
-<button type="button" class="btn btn-primary">Primary</button>
+<ul class="nav justify-content-center">
+  <li class="nav-item">
+    <button type="button" class="btn btn-link" (click)="pickAlgorithm('merge')">
+      merge Sort
+    </button>
+  </li>
+  <li class="nav-item">
+    <button type="button" class="btn btn-link" (click)="pickAlgorithm('heap')">
+      Heap Sort
+    </button>
+  </li>
+  <li class="nav-item">
+    <button type="button" class="btn btn-link" (click)="pickAlgorithm('quick')">
+      Quick Sort
+    </button>
+  </li>
+  <li class="nav-item">
+    <button
+      type="button"
+      class="btn btn-link"
+      (click)="pickAlgorithm('Bubble')"
+    >
+      Bubble Sort
+    </button>
+  </li>
+  <li class="nav-item ml-auto">
+    <button
+      type="button"
+      class="btn btn-link"
+      (click)="pickAlgorithm('Randomize')"
+    >
+      Randomize
+    </button>
+  </li>
+</ul>

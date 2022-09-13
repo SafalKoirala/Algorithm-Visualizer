@@ -1,4 +1,4 @@
-import { Component, OnInit,Output,EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-nav-bar',
@@ -7,13 +7,14 @@ import { Component, OnInit,Output,EventEmitter } from '@angular/core';
 })
 export class NavBarComponent implements OnInit {
 
-  @Output() onClick: EventEmitter<string> = new EventEmitter<string>();
+  @Output() selectedAlgortihm: EventEmitter<string> = new EventEmitter<string>();
+
   constructor() { }
 
   ngOnInit(): void {
   }
 
-  clicked(): void {
-    this.onClick.emit('clicked');
+  public pickAlgorithm(value: string): void {
+    this.selectedAlgortihm.emit(value);
   }
 }

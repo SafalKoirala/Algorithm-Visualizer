@@ -13,7 +13,7 @@ export class DisplayScreenComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  clk($event: string): void {
+  public selectedAlgortihm($event: string): void {
     this.value = $event;
   }
 }
