@@ -1,9 +1,16 @@
 <app-nav-bar
-(selectedAlgortihm)="selectedAlgortihm($event)"
+  (selectedAlgortihm)="selectedAlgortihm($event)"
+  (randomizeBar)="randomizeBar()"
 >
-
 </app-nav-bar>
 <div class="array-container">
-  bars will be here
-  {{ value }}
+  <div
+    class="bars"
+    *ngFor="let bar of barsCount"
+    [ngStyle]="{ height: bar + 'px' }"
+  ></div>
+  <div class="label" *ngIf="value">
+    Performing {{ value | titlecase }} Sort
+  </div>
+
 </div>
