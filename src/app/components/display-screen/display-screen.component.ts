@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { getAnimationsForHeapSort } from '../algorithms/heap-sort';
 import { getMergeSortAnimations } from '../algorithms/merge-sort';
 
 @Component({
@@ -15,7 +16,7 @@ export class DisplayScreenComponent implements OnInit {
 
   algorithms = ['merge', 'heap', 'quick', 'bubble']
 
-  NUMBER_OF_ARRAY_BARS = 100;
+  NUMBER_OF_ARRAY_BARS = 10;
   PRIMARY_COLOR = '#0080FF';
   SECONDARY_COLOR = 'red';
   ANIMATION_SPEED_MS = 10;
@@ -35,17 +36,15 @@ export class DisplayScreenComponent implements OnInit {
         break;
 
       case this.algorithms[1]:
-        //merge sort function
         this.value = this.algorithms[1];
+        this._heapSort();
         break;
 
       case this.algorithms[2]:
-        //merge sort function
         this.value = this.algorithms[2];
         break;
 
       case this.algorithms[3]:
-        //merge sort function
         this.value = this.algorithms[3];
         break;
 
@@ -67,10 +66,9 @@ export class DisplayScreenComponent implements OnInit {
     return Math.floor(Math.random() * (max - min + 1) + min);
   }
 
- private _mergeSort(): void{
+  private _mergeSort(): void {
     const arrayBars = document.getElementsByClassName('bars');
     let animations = getMergeSortAnimations(this.barsCount);
-  
     for (let i = 0; i < animations.length; i++) {
       const isColorChange = i % 3 !== 2;
       if (isColorChange) {
@@ -90,5 +88,38 @@ export class DisplayScreenComponent implements OnInit {
         }, i * this.ANIMATION_SPEED_MS);
       }
     }
-   }
+  }
+
+  private _heapSort(): void {
+    let arrayBars = document.getElementsByClassName('bars');
+    let animations = getAnimationsForHeapSort(this.barsCount);
+    for (let i = 0; i < animations.length; i++) {
+      const [check, v1, v2, v3, v4] = animations[i].slice();
+      if (check === "HighLightOn") {
+        let barOneStyle = <HTMLElement>arrayBars[v1];
+        let barTwoStyle = <HTMLElement>arrayBars[v2];
+        setTimeout(() => {
+          barOneStyle.style.backgroundColor = this.SECONDARY_COLOR;
+          barTwoStyle.style.backgroundColor = this.SECONDARY_COLOR;
+        }, i * this.ANIMATION_SPEED_MS);
+      }
+      else if (check === "HighLightOff") {
+        let barOneStyle = <HTMLElement>arrayBars[v1];
+        let barTwoStyle = <HTMLElement>arrayBars[v2];
+        setTimeout(() => {
+          barOneStyle.style.backgroundColor = this.PRIMARY_COLOR;
+          barTwoStyle.style.backgroundColor = this.PRIMARY_COLOR;
+        }, i * this.ANIMATION_SPEED_MS);
+      }
+      else if(check === "Swap")
+      {
+        let barOneStyle = <HTMLElement>arrayBars[v1];
+        let barTwoStyle = <HTMLElement>arrayBars[v3];
+        setTimeout(() => {
+          barOneStyle.style.height = `${v2}px`;
+          barTwoStyle.style.height = `${v4}px`;
+         }, i * this.ANIMATION_SPEED_MS);
+      }
+    }
+  }
 }
