@@ -3,14 +3,25 @@
   (randomizeBar)="randomizeBar()"
 >
 </app-nav-bar>
+
 <div class="array-container">
+  <div class="label">
+    <span *ngIf="value">Bars sorted using {{ value | titlecase }} Sort</span>
+    <span *ngIf="!value"
+      >Output Bars (select the sort you want to visualize)</span
+    >
+  </div>
   <div
     class="bars"
     *ngFor="let bar of barsCount"
     [ngStyle]="{ height: bar + 'px' }"
   ></div>
-  <div class="label" *ngIf="value">
-    {{ value | titlecase }} Sort
-  </div>
-
+</div>
+<div class="array-container">
+  <div class="label">Randomized Bars</div>
+  <div
+    class="original-bars"
+    *ngFor="let bar of barsCount"
+    [ngStyle]="{ height: bar + 'px' }"
+  ></div>
 </div>
