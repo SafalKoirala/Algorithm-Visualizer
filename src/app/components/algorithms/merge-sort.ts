@@ -12,7 +12,7 @@ function mergeSortHelper(
   mainArray: any[],
   startIdx: number,
   endIdx: number,
-  auxiliaryArray:  any[],
+  auxiliaryArray: any[],
   animations: never[],
 ) {
   if (startIdx === endIdx) return;
@@ -27,7 +27,7 @@ function doMerge(
   startIdx: number,
   middleIdx: number,
   endIdx: number,
-  auxiliaryArray:  any[],
+  auxiliaryArray: any[],
   animations: any[][],
 ) {
   let k = startIdx;
