@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { getAnimationsForHeapSort } from '../algorithms/heap-sort';
 import { getMergeSortAnimations } from '../algorithms/merge-sort';
+import { getAnimationsForQuickSort } from '../algorithms/quick-sort';
 
 @Component({
   selector: 'app-display-screen',
@@ -42,6 +43,7 @@ export class DisplayScreenComponent implements OnInit {
 
       case this.algorithms[2]:
         this.value = this.algorithms[2];
+        this._quickSort();
         break;
 
       case this.algorithms[3]:
@@ -111,15 +113,70 @@ export class DisplayScreenComponent implements OnInit {
           barTwoStyle.style.backgroundColor = this.PRIMARY_COLOR;
         }, i * this.ANIMATION_SPEED_MS);
       }
-      else if(check === "Swap")
-      {
+      else if (check === "Swap") {
         let barOneStyle = <HTMLElement>arrayBars[v1];
         let barTwoStyle = <HTMLElement>arrayBars[v3];
         setTimeout(() => {
           barOneStyle.style.height = `${v2}px`;
           barTwoStyle.style.height = `${v4}px`;
-         }, i * this.ANIMATION_SPEED_MS);
+        }, i * this.ANIMATION_SPEED_MS);
       }
     }
   }
+
+  private _quickSort() {
+    let arrayBars = document.getElementsByClassName('bars');
+    let animations = getAnimationsForQuickSort(this.barsCount);
+
+    for (let i = 0; i < animations.length; i++) {
+      let check = animations[i][0];
+      if (check === "pivoton") {
+        let pivotBar = animations[i][1];
+        const barPivotStyle = <HTMLElement>arrayBars[pivotBar];
+        setTimeout(() => {
+          barPivotStyle.style.backgroundColor = this.PIVOT_COLOR;
+        }, i * this.ANIMATION_SPEED_MS);
+      }
+      else if (check === "highLightOn") {
+        const [barOneIdx, barTwoIdx] = animations[i].slice(1);
+        const barOneStyle = <HTMLElement>arrayBars[barOneIdx];
+        const barTwoeStyle = <HTMLElement>arrayBars[barTwoIdx];
+
+        setTimeout(() => {
+          barOneStyle.style.backgroundColor = this.SECONDARY_COLOR;
+          barTwoeStyle.style.backgroundColor = this.SECONDARY_COLOR;
+        }, i * this.ANIMATION_SPEED_MS);
+      }
+      else if (check === "highLightOff") {
+        const [barOneIdx, barTwoIdx] = animations[i].slice(1);
+        const barOneStyle = <HTMLElement>arrayBars[barOneIdx];
+        const barTwoeStyle = <HTMLElement>arrayBars[barTwoIdx];
+
+        setTimeout(() => {
+          barOneStyle.style.backgroundColor = this.PRIMARY_COLOR;
+          barTwoeStyle.style.backgroundColor = this.PRIMARY_COLOR;
+        }, i * this.ANIMATION_SPEED_MS);
+      }
+      else if (check === "pivotOff") {
+        let pivotBar = animations[i][1];
+        const barPivotStyle = <HTMLElement>arrayBars[pivotBar];
+        setTimeout(() => {
+          barPivotStyle.style.backgroundColor = this.PRIMARY_COLOR;
+        }, i * this.ANIMATION_SPEED_MS);
+      }
+      else if (check === "swap") {
+        const [barIndexOne, barValueOne, barIndexTwo, barValueTwo] = animations[i].slice(1);
+        const barOneStyle = <HTMLElement>arrayBars[barIndexOne];
+        const barTwoeStyle = <HTMLElement>arrayBars[barIndexTwo];
+
+        setTimeout(() => {
+          barOneStyle.style.height = `${barValueOne}px`;
+          barTwoeStyle.style.height = `${barValueTwo}px`;
+        }, i * this.ANIMATION_SPEED_MS);
+
+      }
+    }
+
+  }
+
 }
