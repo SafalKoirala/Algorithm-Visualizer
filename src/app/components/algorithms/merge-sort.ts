@@ -1,4 +1,4 @@
-// This Algorithm is from (https://github.com/clementmihailescu)
+// This Algorithm is refrenced from (https://github.com/clementmihailescu)
 export function getMergeSortAnimations(array: any[]) {
   const animations: never[] = [];
   if (array.length <= 1) return array;

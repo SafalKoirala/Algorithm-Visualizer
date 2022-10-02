@@ -7,7 +7,7 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 })
 export class NavBarComponent implements OnInit {
 
-  @Output() selectedAlgortihm: EventEmitter<string> = new EventEmitter<string>();
+  @Output() selectedAlgorithm: EventEmitter<string> = new EventEmitter<string>();
   @Output() randomizeBar: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   constructor() { }
@@ -16,7 +16,7 @@ export class NavBarComponent implements OnInit {
   }
 
   public pickAlgorithm(value: string): void {
-    this.selectedAlgortihm.emit(value);
+    this.selectedAlgorithm.emit(value);
   }
 
   public randomizeBars(): void {

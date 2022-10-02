@@ -20,9 +20,11 @@ export class DisplayScreenComponent implements OnInit {
 
   NUMBER_OF_ARRAY_BARS = 80;
   PRIMARY_COLOR = '#0080FF';
-  SECONDARY_COLOR = 'red';
+  SECONDARY_COLOR = '#FFD700';
   ANIMATION_SPEED_MS = 10;
-  PIVOT_COLOR = "green";
+  PIVOT_COLOR = "#B2FF33";
+
+  arrayBars = document.getElementsByClassName('bars');
 
   constructor() { }
 
@@ -30,7 +32,10 @@ export class DisplayScreenComponent implements OnInit {
     this.randomizeBar();
   }
 
-  public selectedAlgortihm($event: string): void {
+  public selectedAlgorithm($event: string): void {
+    let animateHeap = getAnimationsForHeapSort(this.barsCount);
+    let animateBubble = getAnimationsForBubbleSort(this.barsCount);
+
     switch ($event) {
       case this.algorithms[0]:
         this.value = this.algorithms[0];
@@ -39,7 +44,7 @@ export class DisplayScreenComponent implements OnInit {
 
       case this.algorithms[1]:
         this.value = this.algorithms[1];
-        this._heapSort();
+        this._animateHeapOrBubbleSort(animateHeap);
         break;
 
       case this.algorithms[2]:
@@ -49,7 +54,7 @@ export class DisplayScreenComponent implements OnInit {
 
       case this.algorithms[3]:
         this.value = this.algorithms[3];
-        this._bubbleSort();
+        this._animateHeapOrBubbleSort(animateBubble);
         break;
 
       default:
@@ -71,14 +76,14 @@ export class DisplayScreenComponent implements OnInit {
   }
 
   private _mergeSort(): void {
-    const arrayBars = document.getElementsByClassName('bars');
     let animations = getMergeSortAnimations(this.barsCount);
+    
     for (let i = 0; i < animations.length; i++) {
       const isColorChange = i % 3 !== 2;
       if (isColorChange) {
         const [barOneIdx, barTwoIdx] = animations[i];
-        const barOneStyle = <HTMLElement>arrayBars[barOneIdx];
-        const barTwoStyle = <HTMLElement>arrayBars[barTwoIdx];
+        const barOneStyle = <HTMLElement>this.arrayBars[barOneIdx];
+        const barTwoStyle = <HTMLElement>this.arrayBars[barTwoIdx];
         const color = i % 3 === 0 ? this.SECONDARY_COLOR : this.PRIMARY_COLOR;
         setTimeout(() => {
           barOneStyle.style.backgroundColor = color;
@@ -87,93 +92,60 @@ export class DisplayScreenComponent implements OnInit {
       } else {
         setTimeout(() => {
           const [barOneIdx, newHeight] = animations[i];
-          const barOneStyle = <HTMLElement>arrayBars[barOneIdx];
+          const barOneStyle = <HTMLElement>this.arrayBars[barOneIdx];
           barOneStyle.style.height = `${newHeight}px`;
         }, i * this.ANIMATION_SPEED_MS);
       }
     }
   }
 
-  private _heapSort(): void {
-    let arrayBars = document.getElementsByClassName('bars');
-    let animations = getAnimationsForHeapSort(this.barsCount);
-    for (let i = 0; i < animations.length; i++) {
-      const [check, v1, v2, v3, v4] = animations[i].slice();
-      if (check === "HighLightOn") {
-        let barOneStyle = <HTMLElement>arrayBars[v1];
-        let barTwoStyle = <HTMLElement>arrayBars[v2];
-        setTimeout(() => {
-          barOneStyle.style.backgroundColor = this.SECONDARY_COLOR;
-          barTwoStyle.style.backgroundColor = this.SECONDARY_COLOR;
-        }, i * this.ANIMATION_SPEED_MS);
-      }
-      else if (check === "HighLightOff") {
-        let barOneStyle = <HTMLElement>arrayBars[v1];
-        let barTwoStyle = <HTMLElement>arrayBars[v2];
-        setTimeout(() => {
-          barOneStyle.style.backgroundColor = this.PRIMARY_COLOR;
-          barTwoStyle.style.backgroundColor = this.PRIMARY_COLOR;
-        }, i * this.ANIMATION_SPEED_MS);
-      }
-      else if (check === "Swap") {
-        let barOneStyle = <HTMLElement>arrayBars[v1];
-        let barTwoStyle = <HTMLElement>arrayBars[v3];
-        setTimeout(() => {
-          barOneStyle.style.height = `${v2}px`;
-          barTwoStyle.style.height = `${v4}px`;
-        }, i * this.ANIMATION_SPEED_MS);
-      }
-    }
-  }
-
   private _quickSort() {
-    let arrayBars = document.getElementsByClassName('bars');
     let animations = getAnimationsForQuickSort(this.barsCount);
 
     for (let i = 0; i < animations.length; i++) {
       let check = animations[i][0];
-      if (check === "pivoton") {
+      if (check === "pivotOn") {
         let pivotBar = animations[i][1];
-        const barPivotStyle = <HTMLElement>arrayBars[pivotBar];
+        const barPivotStyle = <HTMLElement>this.arrayBars[pivotBar];
         setTimeout(() => {
           barPivotStyle.style.backgroundColor = this.PIVOT_COLOR;
         }, i * this.ANIMATION_SPEED_MS);
       }
       else if (check === "highLightOn") {
         const [barOneIdx, barTwoIdx] = animations[i].slice(1);
-        const barOneStyle = <HTMLElement>arrayBars[barOneIdx];
-        const barTwoeStyle = <HTMLElement>arrayBars[barTwoIdx];
+        const barOneStyle = <HTMLElement>this.arrayBars[barOneIdx];
+        const barTwoStyle = <HTMLElement>this.arrayBars[barTwoIdx];
 
         setTimeout(() => {
           barOneStyle.style.backgroundColor = this.SECONDARY_COLOR;
-          barTwoeStyle.style.backgroundColor = this.SECONDARY_COLOR;
+          barTwoStyle.style.backgroundColor = this.SECONDARY_COLOR;
         }, i * this.ANIMATION_SPEED_MS);
       }
       else if (check === "highLightOff") {
         const [barOneIdx, barTwoIdx] = animations[i].slice(1);
-        const barOneStyle = <HTMLElement>arrayBars[barOneIdx];
-        const barTwoeStyle = <HTMLElement>arrayBars[barTwoIdx];
+        const barOneStyle = <HTMLElement>this.arrayBars[barOneIdx];
+        const barTwoStyle = <HTMLElement>this.arrayBars[barTwoIdx];
 
         setTimeout(() => {
           barOneStyle.style.backgroundColor = this.PRIMARY_COLOR;
-          barTwoeStyle.style.backgroundColor = this.PRIMARY_COLOR;
+          barTwoStyle.style.backgroundColor = this.PRIMARY_COLOR;
         }, i * this.ANIMATION_SPEED_MS);
       }
       else if (check === "pivotOff") {
         let pivotBar = animations[i][1];
-        const barPivotStyle = <HTMLElement>arrayBars[pivotBar];
+        const barPivotStyle = <HTMLElement>this.arrayBars[pivotBar];
         setTimeout(() => {
           barPivotStyle.style.backgroundColor = this.PRIMARY_COLOR;
         }, i * this.ANIMATION_SPEED_MS);
       }
       else if (check === "swap") {
         const [barIndexOne, barValueOne, barIndexTwo, barValueTwo] = animations[i].slice(1);
-        const barOneStyle = <HTMLElement>arrayBars[barIndexOne];
-        const barTwoeStyle = <HTMLElement>arrayBars[barIndexTwo];
+        const barOneStyle = <HTMLElement>this.arrayBars[barIndexOne];
+        const barTwoStyle = <HTMLElement>this.arrayBars[barIndexTwo];
 
         setTimeout(() => {
           barOneStyle.style.height = `${barValueOne}px`;
-          barTwoeStyle.style.height = `${barValueTwo}px`;
+          barTwoStyle.style.height = `${barValueTwo}px`;
         }, i * this.ANIMATION_SPEED_MS);
 
       }
@@ -181,15 +153,12 @@ export class DisplayScreenComponent implements OnInit {
 
   }
 
-  private _bubbleSort() {
-    let animations = getAnimationsForBubbleSort(this.barsCount);
-    let arrayBars = document.getElementsByClassName('bars');
-
+  private _animateHeapOrBubbleSort(animations: any) {
     for (let i = 0; i < animations.length; i++) {
       const [check, v1, v2, v3, v4] = animations[i].slice();
       if (check === "HighLightOn") {
-        let barOneStyle = <HTMLElement>arrayBars[v1];
-        let barTwoStyle = <HTMLElement>arrayBars[v2];
+        let barOneStyle = <HTMLElement>this.arrayBars[v1];
+        let barTwoStyle = <HTMLElement>this.arrayBars[v2];
 
         setTimeout(() => {
           barOneStyle.style.backgroundColor = this.SECONDARY_COLOR;
@@ -197,8 +166,8 @@ export class DisplayScreenComponent implements OnInit {
         }, i * this.ANIMATION_SPEED_MS);
       }
       else if (check === "HighLightOff") {
-        let barOneStyle = <HTMLElement>arrayBars[v1];
-        let barTwoStyle = <HTMLElement>arrayBars[v2];
+        let barOneStyle = <HTMLElement>this.arrayBars[v1];
+        let barTwoStyle = <HTMLElement>this.arrayBars[v2];
 
         setTimeout(() => {
           barOneStyle.style.backgroundColor = this.PRIMARY_COLOR;
@@ -206,8 +175,8 @@ export class DisplayScreenComponent implements OnInit {
         }, i * this.ANIMATION_SPEED_MS);
       }
       else if (check === "Swap") {
-        let barOneStyle = <HTMLElement>arrayBars[v1];
-        let barTwoStyle = <HTMLElement>arrayBars[v3];
+        let barOneStyle = <HTMLElement>this.arrayBars[v1];
+        let barTwoStyle = <HTMLElement>this.arrayBars[v3];
 
         setTimeout(() => {
           barOneStyle.style.height = `${v2}px`;
