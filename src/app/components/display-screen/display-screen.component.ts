@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { getAnimationsForBubbleSort } from '../algorithms/bubble-sort';
 import { getAnimationsForHeapSort } from '../algorithms/heap-sort';
 import { getMergeSortAnimations } from '../algorithms/merge-sort';
 import { getAnimationsForQuickSort } from '../algorithms/quick-sort';
@@ -48,6 +49,7 @@ export class DisplayScreenComponent implements OnInit {
 
       case this.algorithms[3]:
         this.value = this.algorithms[3];
+        this._bubbleSort();
         break;
 
       default:
@@ -179,4 +181,39 @@ export class DisplayScreenComponent implements OnInit {
 
   }
 
+  private _bubbleSort() {
+    let animations = getAnimationsForBubbleSort(this.barsCount);
+    let arrayBars = document.getElementsByClassName('bars');
+
+    for (let i = 0; i < animations.length; i++) {
+      const [check, v1, v2, v3, v4] = animations[i].slice();
+      if (check === "HighLightOn") {
+        let barOneStyle = <HTMLElement>arrayBars[v1];
+        let barTwoStyle = <HTMLElement>arrayBars[v2];
+
+        setTimeout(() => {
+          barOneStyle.style.backgroundColor = this.SECONDARY_COLOR;
+          barTwoStyle.style.backgroundColor = this.SECONDARY_COLOR;
+        }, i * this.ANIMATION_SPEED_MS);
+      }
+      else if (check === "HighLightOff") {
+        let barOneStyle = <HTMLElement>arrayBars[v1];
+        let barTwoStyle = <HTMLElement>arrayBars[v2];
+
+        setTimeout(() => {
+          barOneStyle.style.backgroundColor = this.PRIMARY_COLOR;
+          barTwoStyle.style.backgroundColor = this.PRIMARY_COLOR;
+        }, i * this.ANIMATION_SPEED_MS);
+      }
+      else if (check === "Swap") {
+        let barOneStyle = <HTMLElement>arrayBars[v1];
+        let barTwoStyle = <HTMLElement>arrayBars[v3];
+
+        setTimeout(() => {
+          barOneStyle.style.height = `${v2}px`;
+          barTwoStyle.style.height = `${v4}px`;
+        }, i * this.ANIMATION_SPEED_MS);
+      }
+    }
+  }
 }
