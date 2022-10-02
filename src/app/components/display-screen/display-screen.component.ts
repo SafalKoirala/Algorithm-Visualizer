@@ -18,7 +18,7 @@ export class DisplayScreenComponent implements OnInit {
 
   algorithms = ['merge', 'heap', 'quick', 'bubble']
 
-  NUMBER_OF_ARRAY_BARS = 10;
+  NUMBER_OF_ARRAY_BARS = 80;
   PRIMARY_COLOR = '#0080FF';
   SECONDARY_COLOR = 'red';
   ANIMATION_SPEED_MS = 10;
